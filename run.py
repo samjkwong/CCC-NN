@@ -38,7 +38,7 @@ def main():
     print("Generating tensors...")
     X, Y = cd.generate_tensors(examples)
 
-    net = Net()
+    net = Net(X.size()[1])
     opt = optim.Adam(net.parameters(), lr=0.001, betas=(0.9, 0.999))
     criterion = nn.BCELoss()
 

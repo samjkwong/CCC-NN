@@ -32,35 +32,3 @@ class Net(nn.Module):
         a3 = self.out(h2)
         y = self.out_activation(a3)
         return y
-
-net = Net(X.size()[1])
-opt = optim.Adam(net.parameters(), lr=0.001, betas=(0.9, 0.999))
-criterion = nn.BCELoss()
-
-def train_epoch(model, opt, criterion, batch_size=X.size()[0]):
-    model.train()
-    losses = []
-    for beg_i in range(0, X.size(0), batch_size):
-        x_batch = X[beg_i:beg_i + batch_size, :]
-        y_batch = Y[beg_i:beg_i + batch_size, :]
-        x_batch = Variable(x_batch)
-        y_batch = Variable(y_batch)
-
-        opt.zero_grad()
-        # (1) Forward
-        y_hat = net(x_batch)
-        # (2) Compute diff
-        loss = criterion(y_hat, y_batch)
-        # (3) Compute gradients
-        loss.backward()
-        # (4) update weights
-        opt.step()        
-        losses.append(loss.data.numpy())
-    return losses
-
-e_losses = []
-num_epochs = 20
-for e in range(num_epochs):
-    e_losses += train_epoch(net, opt, criterion)
-#plt.plot(e_losses)
-print(e_losses)
