@@ -4,7 +4,8 @@ import torch
 import torch.nn as nn
 import torch.nn.utils
 import torch.nn.functional as F
-from torch.nn.utils.rnn import pad_packed_sequence, pack_padded_sequence
+from torch.autograd import Variable
+import torch.optim as optim
 import numpy as np
 import create_data as cd
 #import matplotlib.pyplot as plt
