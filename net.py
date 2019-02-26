@@ -45,7 +45,7 @@ net = Net(X.size()[1])
 opt = optim.Adam(net.parameters(), lr=0.001, betas=(0.9, 0.999))
 criterion = nn.BCELoss()
 
-def train_epoch(model, opt, criterion, batch_size=50):
+def train_epoch(model, opt, criterion, batch_size=X.size()[0]):
     model.train()
     losses = []
     for beg_i in range(0, X.size(0), batch_size):
