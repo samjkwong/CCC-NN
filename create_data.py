@@ -41,10 +41,9 @@ def generate_tensors(train_examples):
     tensors_values = []
     for row,value in train_examples:
         features = feature_extractor(row)
-        features = torch.Tensor(features)
         tensors_features.append(features)
         tensors_values.append(value)
-    return tensors_features, tensors_values
+    return torch.Tensor(tensors_features), torch.Tensor(tensors_values)
 
 #######################################################################################
 

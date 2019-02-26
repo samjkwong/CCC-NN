@@ -1,11 +1,11 @@
 from collections import namedtuple
 import sys
-from typing import List, Tuple, Dict, Set, Union
 import torch
 import torch.nn as nn
 import torch.nn.utils
 import torch.nn.functional as F
-from torch.nn.utils.rnn import pad_packed_sequence, pack_padded_sequence
+from torch.autograd import Variable
+import torch.optim as optim
 import numpy as np
 import create_data as cd
 #import matplotlib.pyplot as plt
@@ -15,10 +15,13 @@ np.random.shuffle(examples)
 #train_examples = examples[:9*len(examples)//10]
 #test_examples = examples[9*len(examples)//10:]
 X, Y = cd.generate_tensors(examples)
+Y = Y.view(Y.size()[0], 1)
+print(X.size())
+print(Y.size())
 
-class Classification(nn.Module):
+class Net(nn.Module):
     def __init__(self, vocab_size, dropout=0.2):
-        super(Classification, self).__init__()
+        super(Net, self).__init__()
 
         self.linear1 = nn.Linear(in_features=vocab_size, out_features=50)
         self.relu1 = nn.ReLU()
@@ -38,7 +41,7 @@ class Classification(nn.Module):
         y = self.out_activation(a3)
         return y
 
-net = Net()
+net = Net(X.size()[1])
 opt = optim.Adam(net.parameters(), lr=0.001, betas=(0.9, 0.999))
 criterion = nn.BCELoss()
 
