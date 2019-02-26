@@ -1,7 +1,7 @@
 import numpy as np
 import sys
 import csv
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import math
 import re
 from nltk.corpus import stopwords
@@ -12,10 +12,10 @@ import torch.nn.functional as F
 from torch.nn.utils.rnn import pad_packed_sequence, pack_padded_sequence
 
 csv.field_size_limit(sys.maxsize)
-input_file = 'all_data_v3.csv'
+input_file = 'data/all_data_v3.csv'
 DOCUMENT_IND = 2
 OUTCOME_IND = 4
-f = open("lsa_words/lsa_popular_words_all.txt", "r")
+f = open("data/lsa_popular_words_all.txt", "r")
 vocab = {}
 vocab_ind2word = {}
 index = 0
@@ -36,25 +36,39 @@ def feature_extractor(row):
             features[vocab[word]] += 1
     return features
 
-def generate_train(train_examples):
+def generate_tensors(train_examples):
+    tensors = []
     for row,value in train_examples:
-        x += 1
         features = feature_extractor(row)
         features = torch.Tensor(features)
-        print(features)
+        tensors.append(features)
+    return tensors
 
 #######################################################################################
 
+def create_examples():
+    examples = []
+    with open(input_file, encoding='ISO-8859-1') as input:
+        reader = csv.reader(input)
+        next(reader)
+        n = 0
+        for row in reader:
+            #if matrix[n] == 0:
+            value = -1
+            if "APPROVED" in row[OUTCOME_IND] or "CONCURRED" in row[OUTCOME_IND]:
+                value = 1
+            examples.append((row, value))   
+            n += 1 
+    return np.array(examples)
+
 def main(args):
-    num_rows = row_count(input_file)
     examples = create_examples()
     np.random.shuffle(examples)
     # train_examples = examples[:7*num_rows//10]
     # test_examples = examples[7*num_rows//10:]
     train_examples = examples[:9*len(examples)//10]
     test_examples = examples[9*len(examples)//10:]
-    generate_train(train_examples)
-    
+    generate_tensors(train_examples)
 
 if __name__ == '__main__':
     args = sys.argv[1:]
