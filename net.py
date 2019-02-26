@@ -1,11 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-
-"""
-CS224N 2018-19: Homework 5
-"""
-
-### YOUR CODE HERE for part 1i
 from collections import namedtuple
 import sys
 from typing import List, Tuple, Dict, Set, Union
@@ -29,6 +21,3 @@ class CNN(nn.Module):
         x_conv = self.conv_layer(x_reshaped)
         x_conv_out = torch.max(F.relu(x_conv), 2)[0]
         return x_conv_out
-
-### END YOUR CODE
-
