@@ -37,12 +37,14 @@ def feature_extractor(row):
     return features
 
 def generate_tensors(train_examples):
-    tensors = []
+    tensors_features = []
+    tensors_values = []
     for row,value in train_examples:
         features = feature_extractor(row)
         features = torch.Tensor(features)
-        tensors.append(features)
-    return tensors
+        tensors_features.append(features)
+        tensors_values.append(value)
+    return tensors_features, tensors_values
 
 #######################################################################################
 
@@ -54,13 +56,14 @@ def create_examples():
         n = 0
         for row in reader:
             #if matrix[n] == 0:
-            value = -1
+            value = 0
             if "APPROVED" in row[OUTCOME_IND] or "CONCURRED" in row[OUTCOME_IND]:
                 value = 1
             examples.append((row, value))   
             n += 1 
     return np.array(examples)
 
+"""
 def main(args):
     examples = create_examples()
     np.random.shuffle(examples)
@@ -69,7 +72,4 @@ def main(args):
     train_examples = examples[:9*len(examples)//10]
     test_examples = examples[9*len(examples)//10:]
     generate_tensors(train_examples)
-
-if __name__ == '__main__':
-    args = sys.argv[1:]
-    main(args)
+"""
