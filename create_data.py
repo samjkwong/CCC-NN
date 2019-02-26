@@ -12,7 +12,7 @@ import torch.nn.functional as F
 from torch.nn.utils.rnn import pad_packed_sequence, pack_padded_sequence
 
 csv.field_size_limit(sys.maxsize)
-input_file = 'all_data_v3.csv'
+input_file = 'data/all_data_v3.csv'
 DOCUMENT_IND = 2
 OUTCOME_IND = 4
 f = open("lsa_words/lsa_popular_words_all.txt", "r")
