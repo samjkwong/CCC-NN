@@ -5,12 +5,13 @@ import torch.nn as nn
 import torch.nn.utils
 import torch.nn.functional as F
 from torch.nn.utils.rnn import pad_packed_sequence, pack_padded_sequence
+from torch import optim
 import numpy as np
 import create_data as cd
 from net import Net
 #import matplotlib.pyplot as plt
 
-def train_epoch(model, opt, criterion, batch_size=50):
+def train_epoch(X, Y, model, opt, criterion, batch_size=50):
     model.train()
     losses = []
     for beg_i in range(0, X.size(0), batch_size):
@@ -45,7 +46,7 @@ def main():
     e_losses = []
     num_epochs = 20
     for e in range(num_epochs):
-        e_losses += train_epoch(net, opt, criterion)
+        e_losses += train_epoch(X, Y, net, opt, criterion)
     #plt.plot(e_losses)
     print(e_losses)
 
