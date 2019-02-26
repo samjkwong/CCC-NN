@@ -39,6 +39,7 @@ def feature_extractor(row):
 def generate_tensors(train_examples):
     tensors_features = []
     tensors_values = []
+    print("Extracting features...")
     for row,value in train_examples:
         features = feature_extractor(row)
         tensors_features.append(features)

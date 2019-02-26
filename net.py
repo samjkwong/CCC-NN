@@ -10,14 +10,6 @@ import numpy as np
 import create_data as cd
 #import matplotlib.pyplot as plt
 
-examples = cd.create_examples()
-np.random.shuffle(examples)
-#train_examples = examples[:9*len(examples)//10]
-#test_examples = examples[9*len(examples)//10:]
-X, Y = cd.generate_tensors(examples)
-Y = Y.view(Y.size()[0], 1)
-print(X.size())
-print(Y.size())
 
 class Net(nn.Module):
     def __init__(self, vocab_size, dropout=0.2):
