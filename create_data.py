@@ -10,6 +10,7 @@ import torch.nn as nn
 import torch.nn.utils
 import torch.nn.functional as F
 from torch.nn.utils.rnn import pad_packed_sequence, pack_padded_sequence
+import pickle
 
 csv.field_size_limit(sys.maxsize)
 input_file = 'data/all_data_v3.csv'
@@ -44,7 +45,11 @@ def generate_tensors(train_examples):
         features = feature_extractor(row)
         tensors_features.append(features)
         tensors_values.append(value)
-    return torch.Tensor(tensors_features), torch.Tensor(tensors_values)
+    tensors_features = torch.Tensor(tensors_features)
+    tensors_values = torch.Tensor(tensors_values)
+    pickle.dump(tensors_features, open('tf.p', 'wb')) 
+    pickle.dump(tensors_values, open('tv.p', 'wb')) 
+    return tensors_features, tensors_values
 
 #######################################################################################
 

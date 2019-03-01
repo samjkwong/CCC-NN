@@ -4,18 +4,13 @@ import torch
 import torch.nn as nn
 import torch.nn.utils
 import torch.nn.functional as F
-from torch.autograd import Variable
-import torch.optim as optim
-import numpy as np
-import create_data as cd
 #import matplotlib.pyplot as plt
-
 
 class Net(nn.Module):
     def __init__(self, vocab_size, dropout=0.2):
         super(Net, self).__init__()
 
-        self.linear1 = nn.Linear(in_features=vocab_size, out_features=50)
+        self.linear1 = nn.Linear(vocab_size, 50)
         self.relu1 = nn.ReLU()
         self.dropout = nn.Dropout(dropout)
         self.linear2 = nn.Linear(50, 100)
