@@ -9,10 +9,11 @@ from torch import optim
 import numpy as np
 import create_data as cd
 from net import Net
+from torch.autograd import Variable
 #import matplotlib.pyplot as plt
 
-def train_epoch(X, Y, model, opt, criterion, batch_size=50):
-    model.train()
+def train_epoch(X, Y, net, opt, criterion, batch_size=50):
+    net.train()
     losses = []
     for beg_i in range(0, X.size(0), batch_size):
         x_batch = X[beg_i:beg_i + batch_size, :]
@@ -38,6 +39,7 @@ def main():
     np.random.shuffle(examples)
     print("Generating tensors...")
     X, Y = cd.generate_tensors(examples)
+    Y = Y.view(Y.size()[0], 1)
 
     net = Net(X.size()[1])
     opt = optim.Adam(net.parameters(), lr=0.001, betas=(0.9, 0.999))
