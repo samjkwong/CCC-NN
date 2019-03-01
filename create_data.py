@@ -47,8 +47,8 @@ def generate_tensors(train_examples):
         tensors_values.append(value)
     tensors_features = torch.Tensor(tensors_features)
     tensors_values = torch.Tensor(tensors_values)
-    pickle.dump(tensors_features, open('tf.p', 'wb')) 
-    pickle.dump(tensors_values, open('tv.p', 'wb')) 
+    #pickle.dump(tensors_features, open('tf.p', 'wb')) 
+    #pickle.dump(tensors_values, open('tv.p', 'wb')) 
     return tensors_features, tensors_values
 
 #######################################################################################

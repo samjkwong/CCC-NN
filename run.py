@@ -53,12 +53,12 @@ def train_epoch(X, Y, net, opt, criterion, batch_size=50):
 
 def main():
     print("Creating examples...")
-    #examples = cd.create_examples()
-    #np.random.shuffle(examples)
+    examples = cd.create_examples()
+    np.random.shuffle(examples)
     print("Generating tensors...")
-    #X, Y = cd.generate_tensors(examples)
-    X = pickle.load(open('tf.p', 'rb'))
-    Y = pickle.load(open('tv.p', 'rb'))
+    X, Y = cd.generate_tensors(examples)
+    #X = pickle.load(open('tf.p', 'rb'))
+    #Y = pickle.load(open('tv.p', 'rb'))
     Y = Y.view(Y.size()[0], 1)
     #print(Y)
 
