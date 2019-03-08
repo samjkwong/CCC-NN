@@ -51,6 +51,26 @@ def train_epoch(X, Y, net, opt, criterion, batch_size=50):
     print("accuracy", accuracy)
     return accuracy, losses
 
+def test(X, Y, net):
+    #print(X)
+    #print(Y)
+    correct = 0
+    truths = []
+    predictions = []
+    for i in range(Y.size()[0]):
+        truths.append(Y[i])
+        y_hat = net.forward(X[i])
+        if y_hat >= 0.5:
+            predictions.append(1)
+            if Y[i] == 1:
+                correct += 1
+        if y_hat < 0.5:
+            predictions.append(0)
+            if Y[i] == 0:
+                correct += 1
+    print("roc test", metrics.roc_auc_score(np.array(truths), np.array(predictions)))
+    return correct/len(Y)
+
 def main():
     print("Creating examples...")
     examples = cd.create_examples()
@@ -68,11 +88,12 @@ def main():
 
     e_losses = []
     accuracy = []
-    num_epochs = 20
+    num_epochs = 5
     for e in range(num_epochs):
-        a, losses = train_epoch(X, Y, net, opt, criterion)
+        a, losses = train_epoch(X[:9*X.size()[0]//10, :], Y[:9*Y.size()[0]//10, :], net, opt, criterion)
         e_losses += losses
         accuracy.append(a)
+    print("accuracy test", test(X[9*X.size()[0]//10:, :], Y[9*Y.size()[0]//10:, :], net))
     plt.plot(accuracy)
     plt.show()
     #print(e_losses)b
