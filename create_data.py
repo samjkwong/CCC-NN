@@ -15,6 +15,7 @@ import pickle
 csv.field_size_limit(sys.maxsize)
 input_file = 'data/all_data_v3.csv'
 DOCUMENT_IND = 2
+SECTIONS_START_IND = 8
 OUTCOME_IND = 4
 f = open("data/lsa_popular_words_all.txt", "r")
 vocab = {}
@@ -27,10 +28,27 @@ for line in f:
 regex = re.compile('[^a-zA-Z]')
 stopwords = stopwords.words('english')
 
-# feature is list of sections, 1 for mentioned, 0 for not mentioned
+
+'''
+    1 for mentioned, 0 for not mentioned, for each section
+'''
+def section_features(row):
+    features = []
+    for i in row[SECTIONS_START_IND:]:
+        if i == '':
+            features.append(0)
+        else:
+            features.append(float(i))
+    return np.array(features)
+
+'''
+    Features: word counts, sections, and clustering info 
+'''
 def feature_extractor(row):
     features = np.zeros((len(vocab)))
-    # creates a feature array using the sections + clustering info
+
+    f1 = section_features(row)
+
     for word in row[DOCUMENT_IND].split():
         word = regex.sub('', word.lower())
         if (word not in stopwords) and (word != '') and (word in vocab):
