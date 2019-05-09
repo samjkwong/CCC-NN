@@ -4,6 +4,9 @@ import csv
 #import matplotlib.pyplot as plt
 import math
 import re
+# when using VM instance for first time:
+    # import nltk
+    # nltk.download('stopwords')
 from nltk.corpus import stopwords
 import torch
 import torch.nn as nn
@@ -13,7 +16,7 @@ from torch.nn.utils.rnn import pad_packed_sequence, pack_padded_sequence
 import pickle
 
 csv.field_size_limit(sys.maxsize)
-input_file = 'data/all_data_v3.csv'
+input_file = 'data/all_data_v3_w_text.csv'
 DOCUMENT_IND = 2
 SECTIONS_START_IND = 8
 OUTCOME_IND = 4
@@ -47,7 +50,7 @@ def section_features(row):
 def feature_extractor(row):
     features = np.zeros((len(vocab)))
 
-    f1 = section_features(row)
+    # f1 = section_features(row)
 
     for word in row[DOCUMENT_IND].split():
         word = regex.sub('', word.lower())
