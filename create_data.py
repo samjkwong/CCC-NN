@@ -17,8 +17,8 @@ import pickle
 
 csv.field_size_limit(sys.maxsize)
 input_file = 'data/all_data_v3_w_text.csv'
-DOCUMENT_IND = 2
-SECTIONS_START_IND = 8
+DOCUMENT_IND = 8
+SECTIONS_START_IND = 9
 OUTCOME_IND = 4
 f = open("data/lsa_popular_words_all.txt", "r")
 vocab = {}
@@ -68,8 +68,10 @@ def generate_tensors(train_examples):
         tensors_values.append(value)
     tensors_features = torch.Tensor(tensors_features)
     tensors_values = torch.Tensor(tensors_values)
-    #pickle.dump(tensors_features, open('tf.p', 'wb')) 
-    #pickle.dump(tensors_values, open('tv.p', 'wb')) 
+    torch.save(tensors_features, 'tensors_features.pt')
+    torch.save(tensors_values, 'tensors_values.pt')
+    #tensors_features = torch.load('tensors_features.pt')
+    #tensors_values = torch.load('tensors_values.pt')
     return tensors_features, tensors_values
 
 #######################################################################################
@@ -87,7 +89,10 @@ def create_examples():
                 value = 1
             examples.append((row, value))   
             n += 1 
-    return np.array(examples)
+    examples = np.array(examples)
+    np.savetxt('examples.out', examples, '%s')
+    #examples = np.loadtxt('examples.out')
+    return examples
 
 """
 def main(args):
